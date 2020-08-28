@@ -1,8 +1,8 @@
 import numpy
 import string
 import random
-print("### Please use Integer values only.")
-def find_word():                                                                    # checking word length, testing whether it needs a random extra character.
+print("### Please use Integer values, and strings only.")
+def find_word():                                                                    # obtain word, checking word length, testing whether it needs a random extra character.
     global word
     word = input("Input Word: " )
     global word_length
@@ -46,7 +46,7 @@ def find_matrix():
             global inverted_matrix
             inverted_matrix = numpy.array([[d, (b * -1)], [(c * -1), a]])
             global decryption_matrix
-            decryption_matrix = inverted_matrix * encryption_matrix_det
+            decryption_matrix = inverted_matrix * encryption_matrix_det             # inverse
             return
 def final_calc():
     for i in range(0, len(ascii_list), 2):
@@ -56,12 +56,16 @@ def final_calc():
         else:
             x = ascii_list[i]
             y = ascii_list[i+1]
-            final_matrix = numpy.matmul(encryption_matrix, numpy.array([[x], [y]]))
-            print(final_matrix)
-                
-
+            final_matrix = numpy.matmul(encryption_matrix, numpy.array([[x], [y]])) % 128
+            char1 = chr(final_matrix[0, 0])
+            char2 = chr(final_matrix[1, 0])
+            char_list = ["Word: "]
+            char_list.append(char1)
+            char_list.append(char2)
+            print(char_list)
 find_word()
 find_characterset()
 get_matrix_count()
 find_matrix()
 final_calc()
+### get inverse matrix multiplied by all numbers inside matrix then modulo by 128 to decrypt
